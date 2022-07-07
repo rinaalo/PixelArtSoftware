@@ -6,23 +6,41 @@ import random
 from dataclasses import dataclass
 
 SWATCH_WIDTH = 6
-RECT_SIZE = 90
+RECT_SIZE = 80
     
 def start_pygame(colors):
     # Pygame junk
     pygame.init()
     # Prepare Screen
-    screensize = (min(SWATCH_WIDTH, len(colors)) * RECT_SIZE, (1 + len(colors) // SWATCH_WIDTH) * RECT_SIZE)
-    # Set caption
+    #screensize = (min(SWATCH_WIDTH, len(colors)) * RECT_SIZE, (1 + len(colors) // SWATCH_WIDTH) * RECT_SIZE)
+    screensize = (min(SWATCH_WIDTH, len(colors)) * RECT_SIZE, 6*(RECT_SIZE + 15))
+
+    # Set caption and clock rate
     pygame.display.set_caption("Color Palettes")
-    #clock = pygame.time.Clock()
+    clock = pygame.time.Clock()
     surface = pygame.display.set_mode(screensize)
-    #fps = 1
+    fps = 1
+
+    # Set font and text
+    my_font = pygame.font.SysFont("Helvetica", RECT_SIZE // 6)
+
+    def set_text(text):
+        text_surface = my_font.render(text, False, (255, 255, 255))
+        return text_surface
+
+    # Set coordinates
+    def x_offset(count):
+        x = count % SWATCH_WIDTH * RECT_SIZE
+        return x
+
+    def y_offset(count):
+        y = count // SWATCH_WIDTH * RECT_SIZE
+        return y
 
     # Game loop
     run = True
     while run:
-        #clock.tick(fps)
+        clock.tick(fps)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -32,11 +50,42 @@ def start_pygame(colors):
                 elif event.key == pygame.K_g:
                     pass
         
-        for count, color in enumerate(colors):
-            x_offset = count % SWATCH_WIDTH * RECT_SIZE
-            y_offset = count // SWATCH_WIDTH * RECT_SIZE
+        # Original color
+        surface.blit(set_text("Original Color:"), (0, y_offset(0)))
+        for count, color in enumerate(colors[0:1]):
             (r, g, b) = colorsys.hsv_to_rgb(color.h / 360.0, color.s / 100.0, color.v / 100.0)
-            pygame.draw.rect(surface, (r * 255, g * 255, b * 255), pygame.Rect(x_offset, y_offset, RECT_SIZE, RECT_SIZE))
+            pygame.draw.rect(surface, (r * 255, g * 255, b * 255), pygame.Rect(x_offset(count), y_offset(count) + 15, RECT_SIZE, RECT_SIZE))
+
+        # Complementary color
+        surface.blit(set_text("Complementary Color:"), (0, y_offset(0) + (RECT_SIZE + 15)))
+        for count, color in enumerate(colors[0:2]):
+            (r, g, b) = colorsys.hsv_to_rgb(color.h / 360.0, color.s / 100.0, color.v / 100.0)
+            pygame.draw.rect(surface, (r * 255, g * 255, b * 255), pygame.Rect(x_offset(count), y_offset(count) + RECT_SIZE + 30, RECT_SIZE, RECT_SIZE))
+
+        # Analogous colors
+        surface.blit(set_text("Analogous Colors:"), (0, y_offset(0) + 2*(RECT_SIZE + 15)))
+        for count, color in enumerate(colors[2:5]):
+            (r, g, b) = colorsys.hsv_to_rgb(color.h / 360.0, color.s / 100.0, color.v / 100.0)
+            pygame.draw.rect(surface, (r * 255, g * 255, b * 255), pygame.Rect(x_offset(count), y_offset(count) + 2*(RECT_SIZE + 15) + 15, RECT_SIZE, RECT_SIZE))
+
+        # Split complementary colors
+        surface.blit(set_text("Split Complementary Colors:"), (0, y_offset(0) + 3*(RECT_SIZE + 15)))
+        for count, color in enumerate(colors[5:8]):
+            (r, g, b) = colorsys.hsv_to_rgb(color.h / 360.0, color.s / 100.0, color.v / 100.0)
+            pygame.draw.rect(surface, (r * 255, g * 255, b * 255), pygame.Rect(x_offset(count), y_offset(count) + 3*(RECT_SIZE + 15) + 15, RECT_SIZE, RECT_SIZE))
+
+        # Triad colors
+        surface.blit(set_text("Triad Colors:"), (0, y_offset(count) + 4*(RECT_SIZE + 15)))
+        for count, color in enumerate(colors[8:11]):
+            (r, g, b) = colorsys.hsv_to_rgb(color.h / 360.0, color.s / 100.0, color.v / 100.0)
+            pygame.draw.rect(surface, (r * 255, g * 255, b * 255), pygame.Rect(x_offset(count), y_offset(count) + 4*(RECT_SIZE + 15) + 15, RECT_SIZE, RECT_SIZE))
+
+        # Tetradic colors
+        surface.blit(set_text("Tetradic Colors:"), (0, y_offset(count) + 5*(RECT_SIZE + 15)))
+        for count, color in enumerate(colors[11:15]):
+            (r, g, b) = colorsys.hsv_to_rgb(color.h / 360.0, color.s / 100.0, color.v / 100.0)
+            pygame.draw.rect(surface, (r * 255, g * 255, b * 255), pygame.Rect(x_offset(count), y_offset(count) + 5*(RECT_SIZE + 15) + 15, RECT_SIZE, RECT_SIZE))
+
         pygame.display.update()
     pygame.quit()
 
@@ -48,13 +97,6 @@ class Color:
 
     def to_tuple(self) -> tuple(int, int, int):
         return (self.h, self.s, self.v)
-
-    # def hsv_to_rgb(self) -> tuple(int, int, int):
-    #     r, g, b: int, int, int
-    #     if 0 <= self.h < 60:
-    #         r = 255 * self.v
-    #         g = 
-    #     return (self.h, self.s, self.v)
 
     def hue_difference(self, difference) -> Color:
         return Color((self.h + difference) % 360, self.s, self.v)
@@ -80,7 +122,7 @@ class Color:
 
 def main():
     # generate colors
-    col = Color.rand_color() # C
+    col = Color.rand_color() 
     complement = col.complementary_color()
 
     analogous = []
@@ -104,7 +146,6 @@ def main():
     tetradic.append(col.tetradic_color(3))
     tetradic.append(col.tetradic_color(-2))
 
-
     print("Color: ", col)
     print("Complement: ", complement)
     print("Analogous: ", analogous)
@@ -114,7 +155,6 @@ def main():
 
     colors = [col] + [complement] + analogous + split_complement + triad + tetradic
     start_pygame(colors)
-    print(colors)
 
 if __name__ == '__main__':
     main()
