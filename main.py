@@ -7,11 +7,7 @@ def main():
     col = color.Color.rand_color()
     complement = col.complementary_color()
 
-    # analogous = [col.analogous_color(0), col.analogous_color(1), col.analogous_color(-1)]
-    analogous = []
-    analogous.append(col.analogous_color(0))
-    analogous.append(col.analogous_color(1))
-    analogous.append(col.analogous_color(-1))
+    analogous = [col.analogous_color(0), col.analogous_color(1), col.analogous_color(-1)]
 
     # split_complement = [col, col.split_complementary_color(1), col.split_complementary_color(-1)]
     split_complement = []
