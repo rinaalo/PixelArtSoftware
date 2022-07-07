@@ -4,11 +4,11 @@ import colorsys
 SWATCH_WIDTH = 6
 RECT_SIZE = 80
 TEXT_HEIGHT = 15
-FONT = pygame.font.SysFont("Helvetica", RECT_SIZE // 6)
 
 def set_text(text):
     """Set font and text"""
-    text_surface = FONT.render(text, False, (255, 255, 255))
+    my_font = pygame.font.SysFont("Helvetica", RECT_SIZE // 6)
+    text_surface = my_font.render(text, False, (255, 255, 255))
     return text_surface
 
 def x_offset(count):
