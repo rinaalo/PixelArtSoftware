@@ -4,6 +4,20 @@ import colorsys
 SWATCH_WIDTH = 6
 RECT_SIZE = 80
 TEXT_HEIGHT = 15
+FONT = pygame.font.SysFont("Helvetica", RECT_SIZE // 6)
+
+def set_text(text):
+    """Set font and text"""
+    text_surface = FONT.render(text, False, (255, 255, 255))
+    return text_surface
+
+def x_offset(count):
+    x = count % SWATCH_WIDTH * RECT_SIZE
+    return x
+
+def y_offset(count):
+    y = count // SWATCH_WIDTH * RECT_SIZE
+    return y
 
 def start_pygame(colors):
     # Pygame junk
@@ -18,21 +32,8 @@ def start_pygame(colors):
     surface = pygame.display.set_mode(screensize)
     fps = 1
 
-    # Set font and text
-    my_font = pygame.font.SysFont("Helvetica", RECT_SIZE // 6)
 
-    def set_text(text):
-        text_surface = my_font.render(text, False, (255, 255, 255))
-        return text_surface
 
-    # Set coordinates
-    def x_offset(count):
-        x = count % SWATCH_WIDTH * RECT_SIZE
-        return x
-
-    def y_offset(count):
-        y = count // SWATCH_WIDTH * RECT_SIZE
-        return y
 
     # Game loop
     run = True
@@ -46,16 +47,12 @@ def start_pygame(colors):
                     run = False
                 elif event.key == pygame.K_g:
                     pass
-
-        # Original color
-        draw(colors)
-        draw(colors, set_text, surface, x_offset, y_offset)
-
+        draw(colors, surface)
         pygame.display.update()
     pygame.quit()
 
 
-def draw(colors, set_text, surface, x_offset, y_offset):
+def draw(colors, surface):
     surface.blit(set_text("Original Color:"), (0, y_offset(0)))
     for count, color in enumerate(colors[0:1]):
         (r, g, b) = colorsys.hsv_to_rgb(color.h / 360.0, color.s / 100.0, color.v / 100.0)
