@@ -4,7 +4,7 @@ from pygame_stuff import start_pygame
 
 def main():
     # generate colors
-    col = color.Color.rand_color()
+    col = color.rand_color()
     complement = col.complementary_color()
 
     analogous = [col.analogous_color(0), col.analogous_color(1), col.analogous_color(-1)]
