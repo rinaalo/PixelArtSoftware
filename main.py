@@ -1,10 +1,12 @@
 import color
+import pygame_stuff
 from pygame_stuff import start_pygame
 
 
 def main():
     # generate colors
-    col = color.rand_color()
+    #col = color.rand_color()
+    col = color.pick_color()
     complement = col.complementary_color()
 
     analogous = [col.analogous_color(0), col.analogous_color(1), col.analogous_color(-1)]

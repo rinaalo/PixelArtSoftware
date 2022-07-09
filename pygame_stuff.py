@@ -5,6 +5,7 @@ SWATCH_WIDTH = 6
 RECT_SIZE = 80
 TEXT_HEIGHT = 15
 
+
 def set_text(text):
     """Set font and text"""
     my_font = pygame.font.SysFont("Helvetica", RECT_SIZE // 6)
