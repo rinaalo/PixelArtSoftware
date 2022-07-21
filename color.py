@@ -17,7 +17,6 @@ def pick_color() -> Color:
     return hsv
     
 
-
 @dataclass(frozen=True)
 class Color:
     h: int
