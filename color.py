@@ -10,8 +10,12 @@ from dataclasses import dataclass
 def rand_color() -> Color:
     return Color(random.randint(0, 360), random.randint(0, 100), random.randint(0, 100))
 
-def pick_color() -> Color:
+def rgb_color():
     rgb = colorchooser.askcolor()[0]
+    return rgb
+
+def hsv_color() -> Color:
+    rgb = rgb_color()
     (h, s, v) = colorsys.rgb_to_hsv(rgb[0] / 255.0, rgb[1] / 255.0, rgb[2] / 255.0)
     hsv = Color(h * 360, s * 100, v * 100)
     return hsv

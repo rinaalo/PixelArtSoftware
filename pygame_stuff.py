@@ -33,9 +33,6 @@ def start_pygame(colors):
     surface = pygame.display.set_mode(screensize)
     fps = 1
 
-
-
-
     # Game loop
     run = True
     while run:

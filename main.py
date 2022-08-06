@@ -1,6 +1,7 @@
 import color
 from generate_colors import gen_colors
 from pygame_stuff import start_pygame
+import grid
 from tkinter import *
 
 
@@ -10,8 +11,10 @@ def main():
     root.geometry("400x400")
     
     def color_chooser():
-        col = color.pick_color()
-        colors = gen_colors(col)
+        hsv = color.hsv_color()
+        rgb = color.rgb_color()
+        grid.Grid(rgb)
+        colors = gen_colors(hsv)
         start_pygame(colors)
 
     button = Button(root,text="Pick a Color",command=color_chooser)
