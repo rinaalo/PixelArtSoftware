@@ -7,20 +7,24 @@ from tkinter import *
 
 def main():
     
+    '''
     root = Tk()
     root.geometry("400x400")
     
     def color_chooser():
-        hsv = color.hsv_color()
+        #hsv = color.hsv_color()
         rgb = color.rgb_color()
         grid.Grid(rgb)
-        colors = gen_colors(hsv)
-        start_pygame(colors)
+        #colors = gen_colors(hsv)
+        #start_pygame(colors)
 
     button = Button(root,text="Pick a Color",command=color_chooser)
 
     button.pack()
     root.mainloop()
+    '''
+    rgb = color.rgb_color()
+    grid.Grid(rgb)
 
 
 if __name__ == '__main__':
