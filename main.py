@@ -23,8 +23,21 @@ def main():
     button.pack()
     root.mainloop()
     '''
-    rgb = color.rgb_color()
-    grid.Grid(rgb)
+    # TODO 
+    # fix the color choosing thing
+    # make a main menu that will let the user pick canvas size
+    # the canvas should have the pick color and show palette option
+    # an eraser
+    # brush size
+    # brush options?
+    # undo
+    # redo?
+    # save files
+    # LAYERS ?
+    # menu bar
+    # use icons for the buttons, looks cute    
+
+    grid.Grid()
 
 
 if __name__ == '__main__':

@@ -8,16 +8,19 @@ from dataclasses import dataclass
 
 
 def rand_color() -> Color:
-    return Color(random.randint(0, 360), random.randint(0, 100), random.randint(0, 100))
+    return Color(random.randint(0, 360), random.randint(0, 100), random.randint(0, 100), 1)
 
 def rgb_color():
     rgb = colorchooser.askcolor()[0]
     return rgb
 
+#def to_rgb():
+#    (r, g, b) = colorsys.hsv_to_rgb(hsv[0] / 360, hsv[1] / 100, hsv[2] / 100)
+
 def hsv_color() -> Color:
     rgb = rgb_color()
     (h, s, v) = colorsys.rgb_to_hsv(rgb[0] / 255.0, rgb[1] / 255.0, rgb[2] / 255.0)
-    hsv = Color(h * 360, s * 100, v * 100)
+    hsv = Color(h * 360, s * 100, v * 100, 1)
     return hsv
     
 
@@ -26,6 +29,7 @@ class Color:
     h: int
     s: int
     v: int
+    #a: float
 
     def to_tuple(self) -> tuple[int, int, int]:
         return self.h, self.s, self.v
