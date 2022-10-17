@@ -24,18 +24,18 @@ def main():
     root.mainloop()
     '''
     # TODO 
-    # fix the color choosing thing
+    # fix the opacity (add layers maybe)
     # make a main menu that will let the user pick canvas size
-    # the canvas should have the pick color and show palette option
+    # show palette option
     # an eraser
     # brush size
-    # brush options?
+    # brush options
     # undo
-    # redo?
+    # redo
     # save files
-    # LAYERS ?
     # menu bar
-    # use icons for the buttons, looks cute    
+    # use icons for the buttons, looks cute
+    # fill tool   
 
     grid.Grid()
 

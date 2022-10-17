@@ -30,7 +30,7 @@ def Grid():
 
     for row in range(GRID_ROW):
         for column in range(GRID_COL):
-            grid[row][column] = white
+            grid[row][column] = 0
 
     pygame.init()
     window_size = [WIDTH * GRID_COL + MENU, HEIGHT * GRID_ROW]
@@ -38,6 +38,12 @@ def Grid():
     pygame.display.set_caption("Grid")
     clock = pygame.time.Clock()
     fps = 200
+
+    #Alpha Layer
+    layer = pygame.Surface((window_size))
+    layer.set_alpha(0)
+    layer.fill((255, 255, 255))
+    surface.blit(layer, (0,0))
 
     # Buttons
     menu_width = MENU
@@ -57,7 +63,10 @@ def Grid():
                 if grid[row][column] != 0:
                     pygame.draw.rect(surface, grid[row][column],
                     [WIDTH * column, HEIGHT * row, WIDTH, HEIGHT])
-                    #grid[row][column] = 0
+                else:
+                    pygame.draw.rect(layer, grid[row][column],
+                    [WIDTH * column, HEIGHT * row, WIDTH, HEIGHT])
+
 
     # Game Loop
     run = True
@@ -94,6 +103,7 @@ def Grid():
                 pygame.draw.rect(surface, color, [WIDTH * column, HEIGHT * row, WIDTH, HEIGHT])
 
         # Draw on canvas
+        #alpha_layer()
         render_canvas(current_color)
 
         # Button Color
