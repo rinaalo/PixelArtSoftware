@@ -24,7 +24,7 @@ def main():
     root.mainloop()
     '''
     # TODO 
-    # fix the opacity (add layers maybe)
+    # maker layer list
     # make a main menu that will let the user pick canvas size
     # show palette option
     # an eraser

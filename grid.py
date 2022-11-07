@@ -24,7 +24,7 @@ def Grid():
         WIDTH = 7
         HEIGHT = 7
 
-    MENU = 100
+    MENU_X_OFFSET = 100
 
     grid = np.arange(GRID_ROW * GRID_COL, dtype=Color).reshape(GRID_ROW, GRID_COL)
 
@@ -33,7 +33,7 @@ def Grid():
             grid[row][column] = 0
 
     pygame.init()
-    window_size = [WIDTH * GRID_COL + MENU, HEIGHT * GRID_ROW]
+    window_size = [WIDTH * GRID_COL + MENU_X_OFFSET, HEIGHT * GRID_ROW]
     surface = pygame.display.set_mode(window_size)
     pygame.display.set_caption("Grid")
     clock = pygame.time.Clock()
@@ -46,14 +46,14 @@ def Grid():
     surface.blit(layer, (0,0))
 
     # Buttons
-    menu_width = MENU
+    menu_width = MENU_X_OFFSET
     menu_height = HEIGHT * GRID_ROW
 
     colors_textcolor = (0, 0, 0)
     colors_lightcolor = (150, 150, 150)
     colors_darkcolor = (60, 60, 60)
 
-    font = pygame.font.SysFont('Corbel', MENU // 4)
+    font = pygame.font.SysFont('Corbel', MENU_X_OFFSET // 4)
     colors_text = font.render('Colors', True , colors_textcolor)
 
     # Draw on canvas
