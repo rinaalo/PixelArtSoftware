@@ -12,20 +12,15 @@ def Grid():
     black = (0, 0, 0)
     current_color = black
 
+    SCREEN_WIDTH = 512
+    SCREEN_HEIGHT = 512
+    MENU_WIDTH_OFFSET = 100
+
     GRID_ROW = 32
     GRID_COL = 32
 
-    if GRID_ROW <= 40 or GRID_COL <= 40:
-        WIDTH = 15
-        HEIGHT = 15
-    elif (GRID_ROW > 40 and GRID_ROW <= 64) or (GRID_COL > 40 and GRID_COL <= 64):
-        WIDTH = 10
-        HEIGHT = 10
-    else:
-        WIDTH = 7
-        HEIGHT = 7
-
-    MENU_X_OFFSET = 100
+    PIXEL_WIDTH = SCREEN_WIDTH // GRID_COL
+    PIXEL_HEIGHT = SCREEN_HEIGHT // GRID_ROW
 
     grid = np.arange(GRID_ROW * GRID_COL, dtype=Color).reshape(GRID_ROW, GRID_COL)
 
@@ -34,7 +29,7 @@ def Grid():
             grid[row][column] = 0
 
     pygame.init()
-    window_size = [WIDTH * GRID_COL + MENU_X_OFFSET, HEIGHT * GRID_ROW]
+    window_size = [SCREEN_WIDTH + MENU_WIDTH_OFFSET, SCREEN_HEIGHT]
     surface = pygame.display.set_mode(window_size)
     pygame.display.set_caption("Grid")
     clock = pygame.time.Clock()
@@ -47,13 +42,13 @@ def Grid():
     surface.blit(layer, (0,0))
 
     # Buttons
-    menu_width = MENU_X_OFFSET
-    menu_height = HEIGHT * GRID_ROW
+    menu_width = MENU_WIDTH_OFFSET
+    menu_height = PIXEL_HEIGHT * GRID_ROW
 
     colors_lightcolor = (150, 150, 150)
     colors_darkcolor = (60, 60, 60)
 
-    font = pygame.font.SysFont('Corbel', MENU_X_OFFSET // 4)
+    font = pygame.font.SysFont('Corbel', MENU_WIDTH_OFFSET // 4)
 
     # Draw on canvas
     def render_canvas(new_color):
@@ -61,10 +56,10 @@ def Grid():
             for column in range(GRID_COL):
                 if grid[row][column] != 0:
                     pygame.draw.rect(surface, grid[row][column],
-                    [WIDTH * column, HEIGHT * row, WIDTH, HEIGHT])
+                    [PIXEL_WIDTH * column, PIXEL_HEIGHT * row, PIXEL_WIDTH, PIXEL_HEIGHT])
                 else:
                     pygame.draw.rect(layer, grid[row][column],
-                    [WIDTH * column, HEIGHT * row, WIDTH, HEIGHT])
+                    [PIXEL_WIDTH * column, PIXEL_HEIGHT * row, PIXEL_WIDTH, PIXEL_HEIGHT])
 
 
     # Game Loop
@@ -82,15 +77,15 @@ def Grid():
                 run = False 
             # Click on canvas
             if click[0]:
-                column = pos[0] // WIDTH
-                row = pos[1] // HEIGHT
+                column = pos[0] // PIXEL_WIDTH
+                row = pos[1] // PIXEL_HEIGHT
                 try:
                     grid[row][column] = current_color
                 except IndexError:
                     pass
             # Click on button
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if menu_width/6 + (WIDTH * GRID_COL) <= pos[0] <= menu_width/2 + (WIDTH * GRID_COL) and menu_height/6 <= pos[1] <= menu_height/4:
+                if menu_width/6 + (PIXEL_WIDTH * GRID_COL) <= pos[0] <= menu_width/2 + (PIXEL_WIDTH * GRID_COL) and menu_height/6 <= pos[1] <= menu_height/4:
                     temporary_color = rgb_color()
                     if (temporary_color != None): current_color = temporary_color 
                 
@@ -103,7 +98,7 @@ def Grid():
                     color = white
                 else:
                     color = grey
-                pygame.draw.rect(surface, color, [WIDTH * column, HEIGHT * row, WIDTH, HEIGHT])
+                pygame.draw.rect(surface, color, [PIXEL_WIDTH * column, PIXEL_HEIGHT * row, PIXEL_WIDTH, PIXEL_HEIGHT])
 
         # Draw on canvas
         #alpha_layer()
@@ -116,12 +111,12 @@ def Grid():
             button_color = colors_darkcolor
 
         # Create Buttons
-        if menu_width/6 + (WIDTH * GRID_COL) <= pos[0] <= menu_width/2 + (WIDTH * GRID_COL) and menu_height/6 <= pos[1] <= menu_height/4:
-            pygame.draw.rect(surface,colors_lightcolor,[menu_width/6 + (WIDTH * GRID_COL),menu_height/6, menu_width - menu_width/5, menu_height/12])
+        if menu_width/6 + (PIXEL_WIDTH * GRID_COL) <= pos[0] <= menu_width/2 + (PIXEL_WIDTH * GRID_COL) and menu_height/6 <= pos[1] <= menu_height/4:
+            pygame.draw.rect(surface,colors_lightcolor,[menu_width/6 + (PIXEL_WIDTH * GRID_COL),menu_height/6, menu_width - menu_width/5, menu_height/12])
         else:
-            pygame.draw.rect(surface,button_color,[menu_width/6 + (WIDTH * GRID_COL),menu_height/6, menu_width - menu_width/5, menu_height/12])
+            pygame.draw.rect(surface,button_color,[menu_width/6 + (PIXEL_WIDTH * GRID_COL),menu_height/6, menu_width - menu_width/5, menu_height/12])
 
-        surface.blit(colors_text , (menu_width/6 + (WIDTH * GRID_COL),menu_height/6))
+        surface.blit(colors_text , (menu_width/6 + (PIXEL_WIDTH * GRID_COL),menu_height/6))
 
         pygame.display.flip()    
     pygame.quit()
