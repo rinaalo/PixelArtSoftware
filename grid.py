@@ -1,4 +1,5 @@
 from color import *
+from generate_colors import gen_colors
 import pygame
 import numpy as np
 
@@ -49,12 +50,10 @@ def Grid():
     menu_width = MENU_X_OFFSET
     menu_height = HEIGHT * GRID_ROW
 
-    colors_textcolor = (0, 0, 0)
     colors_lightcolor = (150, 150, 150)
     colors_darkcolor = (60, 60, 60)
 
     font = pygame.font.SysFont('Corbel', MENU_X_OFFSET // 4)
-    colors_text = font.render('Colors', True , colors_textcolor)
 
     # Draw on canvas
     def render_canvas(new_color):
@@ -75,6 +74,9 @@ def Grid():
         clock.tick(fps)
         pos = pygame.mouse.get_pos()
 
+        colors_textcolor = (255 - current_color[0], 255 - current_color[1], 255 - current_color[2])
+        colors_text = font.render('Colors', True , colors_textcolor)
+
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 run = False 
@@ -89,7 +91,8 @@ def Grid():
             # Click on button
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if menu_width/6 + (WIDTH * GRID_COL) <= pos[0] <= menu_width/2 + (WIDTH * GRID_COL) and menu_height/6 <= pos[1] <= menu_height/4:
-                    current_color = rgb_color()
+                    temporary_color = rgb_color()
+                    if (temporary_color != None): current_color = temporary_color 
                 
         surface.fill(blue)
 
@@ -108,10 +111,7 @@ def Grid():
 
         # Button Color
         try:
-            if current_color != black:
-                button_color = current_color
-            else:
-                button_color = grey
+            button_color = current_color
         except UnboundLocalError:
             button_color = colors_darkcolor
 
